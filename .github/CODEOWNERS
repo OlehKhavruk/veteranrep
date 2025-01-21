@@ -1,1 +1,3 @@
-* @online-marathon
+*.yml @online-marathon
+*.yaml @online-marathon
+
