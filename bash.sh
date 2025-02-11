@@ -1,3 +1,4 @@
+echo 'The practice started'
 #!/bin/bash 
 COUNTER=0 
 while [ $COUNTER -lt 10 ] 
