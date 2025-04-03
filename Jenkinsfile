@@ -2,16 +2,19 @@ pipeline {
     agent any
 
     environment {
-        NODE_VERSION = "22"
+        NODE_VERSION = "22.2.0"
     }
 
     stages {
         stage('Prepare') {
             steps {
-                echo "Installing Node.js version ${env.NODE_VERSION}"
+                echo "Installing Node.js ${env.NODE_VERSION} using NVM"
                 sh '''
-                    curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo -E bash -
-                    sudo apt-get install -y nodejs
+                    export NVM_DIR="$HOME/.nvm"
+                    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    nvm install ${NODE_VERSION}
+                    nvm use ${NODE_VERSION}
                     node -v
                 '''
             }
@@ -19,15 +22,18 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Simulating build process"
-                sh 'npm -v'
+                sh '''
+                    export NVM_DIR="$HOME/.nvm"
+                    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+                    nvm use ${NODE_VERSION}
+                    npm -v
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                echo "Simulating test process"
-                sh 'echo $JENKINS_URL'
+                echo "JENKINS_URL is $JENKINS_URL"
             }
         }
     }
