@@ -1,9 +1,17 @@
 name: Github Actions Demo
+
 run-name: ${{ github.actor }} is testing out GitHub Actions
+
 on:
   push:
   workflow_dispatch:
+
 jobs:
-  Explore-GItHub-Actions:
+  explore-github-actions:
     runs-on: ubuntu-latest
-  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run a one-line script
+        run: echo "🎉 The workflow is running!"
